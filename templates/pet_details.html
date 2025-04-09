@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+<!-- content -->
+
+{% block content %}
+<div class="page_container">
+  <img class="pet_photo" src="{{pet.photo_url}}" alt="" />
+  <div class="pet_details_container">
+    <h1 class="pet_name">{{pet.name}}</h1>
+    <h3 class="pet_age">Age: {{pet.age}}</h3>
+    <h3 class="pet_species">Species: {{pet.species}}</h3>
+    <p class="pet_notes">Notes: {{pet.notes}}</p>
+    <h2 class="pet_availability">
+      Status: {%if pet.available %}<b>Available</b>
+      {% else %}
+      <b>Unavailable</b>
+      {% endif %}
+    </h2>
+
+    <form action="/{{pet.id}}/edit">
+      <button>Edit Pet</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
