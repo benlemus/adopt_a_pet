@@ -2,12 +2,14 @@
 
 <!-- style -->
 {% block content %}
-<!-- adding pet -->
-<div class="form_container">
-  <form action="/add" id="add_pet_form" method="post">
-    {% include 'form.j2' %}
-    <button type="submit">Add</button>
-  </form>
+<div class="container">
+  <h2 class="page_title">Add a Pet</h2>
+  <div class="form_container">
+    <form action="/add" id="add_pet_form" method="post">
+      {% include 'form.j2' %}
+      <button type="submit">Add</button>
+    </form>
+  </div>
 </div>
 
 {% endblock %}

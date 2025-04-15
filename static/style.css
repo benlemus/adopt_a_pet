@@ -16,6 +16,7 @@ body {
   height: 50px;
   position: fixed;
   background-color: rgb(22, 141, 244);
+  z-index: 5;
 }
 
 .navbar_items {
@@ -36,54 +37,16 @@ body {
   padding-left: 15px;
 }
 
-.page_container {
-  background-color: rgb(63, 161, 246);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
 .page_title {
+  color: white;
   margin-top: 60px;
   border-bottom: 3px solid white;
   font-size: 3rem;
   text-align: center;
 }
 
-.pet_home_img {
-  max-width: 100%;
-  height: auto;
-  max-height: 500px;
-  min-height: 300px;
-}
-
-.pet {
-  text-align: center;
-  border-bottom: 1px solid white;
-  width: 100rem;
-  margin-top: 20px;
-  padding-bottom: 20px;
-}
-
-.pet_name_home {
-  color: white;
-  font-size: 2rem;
-}
-
-.available {
-  background-color: rgb(25, 192, 75);
-  padding: 10px;
-  border-radius: 15px;
-  font-size: 1.7rem;
-}
-
-.unavailable {
-  background-color: rgb(187, 80, 80);
-  padding: 10px;
-  border-radius: 15px;
-  font-size: 1.7rem;
-}
-
-.pet h1 {
-  padding-bottom: 15px;
+.pet_img {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
 }
