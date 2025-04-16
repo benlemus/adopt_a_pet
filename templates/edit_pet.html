@@ -2,11 +2,16 @@
 
 <!-- content -->
 {% block content %}
-<div class="page_container">
-  <form action="/{{pet.id}}/edit" id="edit_pet_form" method="post">
-    {% include 'form.j2' %}
-    <button type="submit">Add</button>
-  </form>
+<h2 class="page_title">Edit Pet:</h2>
+<div class="container-fluid">
+  <div class="container d-flex justify-content-center">
+    <form action="/{{pet.id}}/edit" id="edit_pet_form" method="post">
+      {% include 'form.j2' %}
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Add</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 {% endblock %}

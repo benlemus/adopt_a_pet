@@ -1,48 +1,9 @@
 {% extends 'base.html' %}
 
 <!-- content -->
-{% block content %} {% if pets %}
-<div class="container">
-  <div class="container-fluid">
-    <!-- TODO: eventually switch off page_title class. will need to impliment bootstrap navbar for spacing.-->
-    <h2 class="page_title">Available Pets:</h2>
-    <div class="row">
-      {% for pet in pets if pet.available %}
-      <div class="col-sm-6 col-lg-3">
-        <div class="card text-center p-2 mt-5">
-          <img src="{{pet.photo_url}}" alt="" class="card-img-top pet_img" />
-          <div class="card-body">
-            <h1>
-              <a href="/{{pet.id}}" class="card-title">{{pet.name}}</a>
-            </h1>
-            <h5><b class="badge text-bg-success">Available</b></h5>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
+{% block content %} {% if av or up %} {% include 'home_cards.j2' %} {% else %}
 
-    <div class="container-fluid">
-      <!-- TODO: eventually switch off page_title class. will need to impliment bootstrap navbar for spacing.-->
-      <h2 class="page_title">Unavailable Pets:</h2>
-      <div class="row">
-        {% for pet in pets if not pet.available %}
-        <div class="col-sm-6 col-xl-3">
-          <div class="card text-center p-2 mt-5">
-            <img src="{{pet.photo_url}}" alt="" class="card-img-top pet_img" />
-            <div class="card-body">
-              <h1>
-                <a href="/{{pet.id}}" class="card-title">{{pet.name}}</a>
-              </h1>
-              <h5><b class="badge text-bg-danger">Unavailable</b></h5>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  {% else %}
-  <h2>Currently No Pets</h2>
-  {% endif %} {% endblock %}
+<div class="container d-flex justify-content-center">
+  <h2 class="mt-5 pt-3 text-light">Currently No Pets</h2>
 </div>
+{% endif %} {% endblock %}

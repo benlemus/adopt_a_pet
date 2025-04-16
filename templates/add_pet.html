@@ -2,12 +2,14 @@
 
 <!-- style -->
 {% block content %}
-<div class="container">
-  <h2 class="page_title">Add a Pet</h2>
-  <div class="form_container">
+<h2 class="page_title">Add a Pet</h2>
+<div class="container-fluid">
+  <div class="container d-flex justify-content-center">
     <form action="/add" id="add_pet_form" method="post">
       {% include 'form.j2' %}
-      <button type="submit">Add</button>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Add</button>
+      </div>
     </form>
   </div>
 </div>

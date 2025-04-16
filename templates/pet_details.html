@@ -3,23 +3,31 @@
 <!-- content -->
 
 {% block content %}
-<div class="page_container">
-  <img class="pet_photo" src="{{pet.photo_url}}" alt="" />
-  <div class="pet_details_container">
-    <h1 class="pet_name">{{pet.name}}</h1>
-    <h3 class="pet_age">Age: {{pet.age}}</h3>
-    <h3 class="pet_species">Species: {{pet.species}}</h3>
-    <p class="pet_notes">Notes: {{pet.notes}}</p>
-    <h2 class="pet_availability">
-      Status: {%if pet.available %}<b>Available</b>
-      {% else %}
-      <b>Unavailable</b>
-      {% endif %}
-    </h2>
+<div class="container-fluid mt-5 pt-5">
+  <div class="card mb-3" style="max-width: 70vw; max-height: 70vh">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img class="img-fluid rounded-start" src="{{pet.photo_url}}" alt="" />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h1 class="card-title">{{pet.name}}</h1>
+          <h3 class="card-subtitle mb-2">Age: {{pet.age}}</h3>
+          <h3 class="card-subtitle mb-2">Species: {{pet.species}}</h3>
+          <p class="card-text"><b>Notes:</b> {{pet.notes}}</p>
+          <h2 class="pet_availability">
+            Status: {%if pet.available %}<b class="text-success">Available</b>
+            {% else %}
+            <b class="text-danger">Unavailable</b>
+            {% endif %}
+          </h2>
 
-    <form action="/{{pet.id}}/edit">
-      <button>Edit Pet</button>
-    </form>
+          <form action="/{{pet.id}}/edit">
+            <button class="btn btn-primary">Edit Pet</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

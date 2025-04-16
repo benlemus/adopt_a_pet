@@ -2,12 +2,19 @@ from flask import Flask, render_template, redirect, request, flash
 from models import db, connect_db, Pet
 from forms import NewPetForm, EditPetForm
 
+import os
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///adopt_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
+
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf', 'docx'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 connect_db(app)
 
@@ -19,8 +26,10 @@ debug = DebugToolbarExtension(app)
 '''Shows all pets from adopt_db with pet name photo and availability status'''
 @app.route('/')
 def home_page():
-    pets = Pet.query.all()
-    return render_template('home_page.html', pets=pets)
+    av_pets = Pet.get_available_pets()
+    unv_pets = Pet.get_unavailable_pets()
+
+    return render_template('home_page.html', ap=av_pets, up=unv_pets)
 
 '''Shows the add pet form and handles the submitted add pet form. Creates a new pet with new pet form data and commits it to db. Checks if there is a provided photo_url, if not, lets default url from pet model take over.'''
 @app.route('/add', methods=['GET', 'POST'])
@@ -28,26 +37,26 @@ def add_pet():
     form = NewPetForm()
 
     if request.method == 'POST' and form.validate_on_submit():
-        name = form.name.data
-        species = form.species.data
-        photo_url = form.photo_url.data
-        age = form.age.data
-        notes = form.notes.data
+        fields = ['name', 'species', 'age', 'notes']
+        pet_data = {field: getattr(form, field).data for field in fields}
 
-        pet_data = {
-            'name': name,
-            'species': species,
-            'age': age,
-            'notes': notes
-        }
-
-        if photo_url:
-            pet_data['photo_url'] = photo_url
+        def allowed_file(filename):
+            return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    
+        if form.file.data and allowed_file(form.file.data.filename):
+            uploaded_file = form.file.data
+            filename = secure_filename(uploaded_file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            uploaded_file.save(filepath)
+            pet_data['file'] = filename 
+        elif form.photo_url.data:
+            pet_data['photo_url'] = form.photo_url.data
 
         pet = Pet(**pet_data)
 
         db.session.add(pet)
         db.session.commit()
+
         flash('Pet added!')
         return redirect('/')
     
@@ -68,7 +77,12 @@ def edit_pet(pet_id):
     form = EditPetForm(obj=pet)
 
     if request.method == 'POST' and form.validate_on_submit():
-        pet.photo_url = form.photo_url.data
+        if form.file.data:
+            pet.file = form.file.data
+        elif form.photo_url.data:
+            pet.photo_url = form.photo_url.data
+
+        # pet.photo_url = form.photo_url.data
         pet.notes = form.notes.data
         available = form.available.data
         if available == 'True':

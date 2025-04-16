@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <h2 class="page_title mt-5 pt-3">Available Pets:</h2>
+    <div class="row">
+        {% for pet in ap %} 
+            <div class="col-sm-6 col-xl-3">
+                <div class="card text-center p-2 mt-5">
+                    <img src="{{pet.photo_url}}" alt="" class="card-img-top pet_img" />
+                    <div class="card-body">
+                        <h1>
+                        <a href="/{{pet.id}}" class="card-title">{{pet.name}}</a>
+                        </h1>
+                        {% if pet.available == True %}
+                            <h5><b class="badge text-bg-success">Available</b></h5>
+                        {% else %}
+                            <h5><b class="badge text-bg-danger">Unavailable</b></h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> 
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container-fluid">
+    <h2 class="page_title mt-5 pt-3">Unavailable Pets:</h2>
+    <div class="row">
+        {% for pet in up %}
+            <div class="col-sm-6 col-xl-3">
+                <div class="card text-center p-2 mt-5">
+                    <img src="{{pet.photo_url}}" alt="" class="card-img-top pet_img" />
+                    <div class="card-body">
+                        <h1>
+                        <a href="/{{pet.id}}" class="card-title">{{pet.name}}</a>
+                        </h1>
+                        {% if pet.available == True %}
+                            <h5><b class="badge text-bg-success">Available</b></h5>
+                        {% else %}
+                            <h5><b class="badge text-bg-danger">Unavailable</b></h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> 
+        {% endfor %}
+    </div>
+</div>
