@@ -80,11 +80,14 @@ def edit_pet(pet_id):
     pet = Pet.query.get_or_404(pet_id)
     form = EditPetForm(obj=pet)
 
-    if request.method == 'POST' and form.validate_on_submit():
-    
-        if form.file.data:
-            pet.file = form.file.data
-        elif form.photo_url.data:
+    if request.method == 'POST' and form.validate_on_submit(): 
+        file = form.file.data
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            pet.file = filename
+            flash('File updated!')
+        else:
             pet.photo_url = form.photo_url.data
 
         pet.notes = form.notes.data
