@@ -7,7 +7,23 @@
   <div class="card mb-3" style="max-width: 70vw; max-height: 70vh">
     <div class="row g-0">
       <div class="col-md-4">
-        <img class="img-fluid rounded-start" src="{{pet.photo_url}}" alt="" />
+        {% if pet.file %}
+        <img
+          class="img-fluid rounded-start mx-auto d-block"
+          style="min-height: 500px; object-fit: contain; width: auto"
+          src="/static/uploads/{{pet.file}}"
+          alt=""
+        />
+        {% else %}
+
+        <img
+          class="img-fluid rounded-start"
+          style="min-height: 500px; object-fit: contain; width: auto"
+          src="{{pet.photo_url}}"
+          alt=""
+        />
+
+        {% endif%}
       </div>
       <div class="col-md-8">
         <div class="card-body">

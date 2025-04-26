@@ -1,11 +1,26 @@
 from models import db, Pet
 from app import app
+import os
+
+UPLOAD_FOLDER = 'static/uploads'
+
+files = os.listdir(UPLOAD_FOLDER)
+
+if len(files) > 0:
+    for file in files:
+        file_path = os.path.join(UPLOAD_FOLDER, file)
+        try:
+            os.remove(file_path)
+        except Exception as e:
+            print(f"Error deleting {file}: {e}")
 
 with app.app_context():
+    Pet.query.delete()
+    db.session.commit()
+    
     db.drop_all()
     db.create_all()
 
-    Pet.query.delete()
     
     milo = Pet(name='Milo', species='Dog', file=None, photo_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO5U9u20Sw2CyVVLwAjRYjeraJK14UV0EZ5Q&s', age=1,  notes='very very nice and very handsome', available=False)
 

@@ -4,8 +4,13 @@
         {% for pet in ap %} 
             <div class="col-sm-6 col-xl-3">
                 <div class="card text-center p-2 mt-5">
-                    <img src="{{pet.photo_url}}" alt="" class="card-img-top pet_img" />
-                    <div class="card-body">
+                    {% if pet.file %}
+                        <img src="/static/uploads/{{pet.file}}" alt="" class="card-img-top pet_img" />
+                        <div class="card-body">
+                    {% else %}
+                        <img src="{{pet.photo_url}}" alt="" class="card-img-top pet_img" />
+                        <div class="card-body">
+                    {% endif %}
                         <h1>
                         <a href="/{{pet.id}}" class="card-title">{{pet.name}}</a>
                         </h1>
@@ -27,8 +32,13 @@
         {% for pet in up %}
             <div class="col-sm-6 col-xl-3">
                 <div class="card text-center p-2 mt-5">
-                    <img src="{{pet.photo_url}}" alt="" class="card-img-top pet_img" />
-                    <div class="card-body">
+                    {% if pet.file %}
+                        <img src="/static/uploads/{{pet.file}}" alt="" class="card-img-top pet_img" />
+                        <div class="card-body">
+                    {% else %}
+                        <img src="{{pet.photo_url}}" alt="" class="card-img-top pet_img" />
+                        <div class="card-body">
+                    {% endif %}
                         <h1>
                         <a href="/{{pet.id}}" class="card-title">{{pet.name}}</a>
                         </h1>

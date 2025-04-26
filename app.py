@@ -5,7 +5,6 @@ from forms import NewPetForm, EditPetForm
 import os
 from werkzeug.utils import secure_filename
 
-
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///adopt_db'
@@ -13,7 +12,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 
 UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf', 'docx'}
+ALLOWED_EXTENSIONS = {'jpg', 'png', 'jpeg', 'pdf', 'docx'}
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 connect_db(app)
@@ -22,6 +22,11 @@ from flask_debugtoolbar import DebugToolbarExtension
 app.config['SECRET_KEY'] = 'NotPassword'
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 '''Shows all pets from adopt_db with pet name photo and availability status'''
 @app.route('/')
@@ -37,18 +42,17 @@ def add_pet():
     form = NewPetForm()
 
     if request.method == 'POST' and form.validate_on_submit():
+    
         fields = ['name', 'species', 'age', 'notes']
         pet_data = {field: getattr(form, field).data for field in fields}
 
-        def allowed_file(filename):
-            return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-    
-        if form.file.data and allowed_file(form.file.data.filename):
-            uploaded_file = form.file.data
-            filename = secure_filename(uploaded_file.filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            uploaded_file.save(filepath)
-            pet_data['file'] = filename 
+        file = form.file.data
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            pet_data['file'] = filename
+            flash('File uploaded!')
+
         elif form.photo_url.data:
             pet_data['photo_url'] = form.photo_url.data
 
@@ -77,12 +81,12 @@ def edit_pet(pet_id):
     form = EditPetForm(obj=pet)
 
     if request.method == 'POST' and form.validate_on_submit():
+    
         if form.file.data:
             pet.file = form.file.data
         elif form.photo_url.data:
             pet.photo_url = form.photo_url.data
 
-        # pet.photo_url = form.photo_url.data
         pet.notes = form.notes.data
         available = form.available.data
         if available == 'True':
