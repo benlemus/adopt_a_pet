@@ -2,7 +2,7 @@
     <h2 class="page_title mt-5 pt-3">Available Pets:</h2>
     <div class="row">
         {% for pet in ap %} 
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-md-6 col-xl-4">
                 <div class="card text-center p-2 mt-5">
                     {% if pet.file %}
                         <img src="/static/uploads/{{pet.file}}" alt="" class="card-img-top pet_img" />
@@ -30,7 +30,7 @@
     <h2 class="page_title mt-5 pt-3">Unavailable Pets:</h2>
     <div class="row">
         {% for pet in up %}
-            <div class="col-sm-6 col-xl-3">
+            <div class="col-md-6 col-xl-4">
                 <div class="card text-center p-2 mt-5">
                     {% if pet.file %}
                         <img src="/static/uploads/{{pet.file}}" alt="" class="card-img-top pet_img" />

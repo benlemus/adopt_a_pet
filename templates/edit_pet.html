@@ -5,7 +5,12 @@
 <h2 class="page_title">Edit Pet:</h2>
 <div class="container-fluid">
   <div class="container d-flex justify-content-center">
-    <form action="/{{pet.id}}/edit" id="edit_pet_form" method="post">
+    <form
+      action="/{{pet.id}}/edit"
+      id="edit_pet_form"
+      method="post"
+      enctype="multipart/form-data"
+    >
       {% include 'form.j2' %}
       <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-primary">Add</button>
